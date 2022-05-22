@@ -2,8 +2,9 @@
 *
 
 # Except these files
-!.gitignore
-!.zshrc
-!.bashrc
-!.vimrc
 !.bash_aliases
+!.bashrc
+!.gitignore
+!.tmux.conf
+!.vimrc
+!.zshrc

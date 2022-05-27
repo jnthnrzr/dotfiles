@@ -6,10 +6,10 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 call plug#begin()
 
-Plug 'sainnhe/everforest'
-Plug 'morhetz/gruvbox'
-Plug 'itchyny/lightline.vim'
 Plug 'frazrepo/vim-rainbow', { 'for': 'python' }
+Plug 'itchyny/lightline.vim'
+Plug 'morhetz/gruvbox'
+" Plug 'sainnhe/everforest'
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-sensible'
@@ -29,50 +29,79 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-" ------------------------------------------------------------------------------
+" ---------------------------
 " Configure looks and visuals
-" ------------------------------------------------------------------------------
+" ---------------------------
+set background=dark
 let g:rainbow_active = 1
-filetype plugin indent on	            " load filetype-specific indent files
-let mapleader = ","                     " set leader
-set t_Co=256                            " set number of colors
-set autoindent				            " copy indent to next line
-set background=dark                     " use light/dark background
-set colorcolumn=80                      " show vertical line at column value
-set cursorline				            " highlight current cursor line
-set expandtab				            " enter spaces when tab is pressed
-set foldenable				            " enable folding
-set foldlevelstart=10		            " open most folds by default
-set foldmethod=indent		            " fold based on indent level
-set foldnestmax=10			            " 10 nested fold max
-set hlsearch				            " highlight matches
-set laststatus=2                        " view the statusline
-set lazyredraw				            " redraw only when we need to
-set nocompatible                        " not compatible with old vi
-set number				                " show line numbers
-set path=**                             " search everything
-set ruler				                " show line and column number
-set shell=/usr/local/bin/zsh            " set shell program
-set shiftwidth=4			            " number of spaces for auto indent
-set showcmd				                " show command in bottom bar
-set signcolumn=yes                      " always show sign column
-set softtabstop=4                       " use 4 spaces as flexible tabs
-set splitright                          " vertical splits split right
-set splitbelow                          " splits split below
-set tabstop=4				            " use 4 spaces to represent tab
-set textwidth=78			            " break lines for line length increases
-set wildmenu				            " visual autocomplete for command menu
-syntax enable				            " enable syntax processing
-set noshowmode                          " hide status in favor of lightline
+" load filetype-specific indent files
+filetype plugin indent on
+" set leader
+let mapleader = ","
+" set number of colors
+set t_Co=256
+" copy indent to next line
+set autoindent
+" show vertical line at column value
+set colorcolumn=80
+" highlight current cursor line
+set cursorline
+" enter spaces when tab is pressed
+set expandtab
+" enable folding
+set foldenable
+" open most folds by default
+set foldlevelstart=10
+" fold based on indent level
+set foldmethod=indent
+" 10 nested fold max
+set foldnestmax=10
+" highlight matches
+set hlsearch
+" view the statusline
+set laststatus=2
+" redraw only when we need to
+set lazyredraw
+" allow newer features not compatible with old vi
+set nocompatible
+" show line numbers
+set number
+" search everything
+set path=**
+" show line and column number
+set ruler
+set shell=/usr/local/bin/zsh
+" number of spaces for auto indent
+set shiftwidth=4
+" show command in bottom bar
+set showcmd
+" always show sign column
+set signcolumn=yes
+" use 4 spaces as flexible tabs
+set softtabstop=4
+" vertical splits split right
+set splitright
+" splits split below
+set splitbelow
+" use 4 spaces to represent tab
+set tabstop=4
+" break lines for line length increases
+set textwidth=78
+" visual autocomplete for command menu
+set wildmenu
+" enable syntax processing
+syntax enable
+" hide status in favor of lightline
+set noshowmode
 
 set completeopt=menu,menuone,preview
 set omnifunc=syntaxcomplete#Complete
 
 " autocmd CursorHold * silent call CocAction('highlight')
 
-" ------------------------------------------------------------------------------
+" ----------------------
 " Configure cursor shape
-" ------------------------------------------------------------------------------
+" ----------------------
 " Cursor settings:
 " 1 -> blinking block
 " 2 -> solid block
@@ -84,9 +113,9 @@ let &t_SI.="\e[1 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 
-" ------------------------------------------------------------------------------
+" ----------------------
 " Configure zettelkasten
-" ------------------------------------------------------------------------------
+" ----------------------
 let g:zettelkasten = $HOME . '/projects/notes'
 
 command! -nargs=1 NewFleeting :execute ":e" zettelkasten . "/fleeting_notes/<args>_" . strftime("%Y-%m-%d-%H%M") . ".md"
@@ -104,7 +133,10 @@ nnoremap <leader>nl :NewLit
 nnoremap <leader>nj :NewJournal<CR>
 
 command! NewUuid :execute "python3 import uuid; print(uuid.uuid4());"
-" ->
+
+" --------------------
+" Set global variables
+" --------------------
 let g:gruvbox_italic='1'
 let g:gruvbox_bold='1'
 let g:gruvbox_italicize_comments='0'
@@ -113,5 +145,9 @@ let g:gruvbox_improved_warnings='0'
 let g:gruvbox_improved_strings='0'
 let g:gruvbox_underline='0'
 let g:gruvbox_undercurl='1'
-colorscheme gruvbox
 let g:lightline = {'colorscheme': 'wombat'}
+
+" ---------------
+" Set colorscheme
+" ---------------
+colorscheme gruvbox

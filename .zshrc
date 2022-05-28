@@ -83,11 +83,17 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+    aws
     autojump
     dotenv
     docker
     docker-compose
+    gh
     git
+    pipenv
+    pyenv
+    python
+    vi-mode
     zsh-syntax-highlighting
 )
 
@@ -137,4 +143,3 @@ export PATH="/usr/local/sbin:$PATH"
 # eval "$(pyenv virtualenv-init -)"
 eval "$(pyenv init -)"
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

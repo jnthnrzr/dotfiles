@@ -2,6 +2,7 @@
 *
 
 # Except these files
+!alacritty.yml
 !.bash_aliases
 !.bashrc
 !.gitignore

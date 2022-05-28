@@ -22,9 +22,9 @@ tabspaces: 8
 draw_bold_text_with_bright_colors: true
 dynamic_padding: false
 font:
-  bold:
-    family: Hasklug Nerd Font
-    style: Bold
+  # bold:
+    # family: Hasklug Nerd Font
+    # style: Bold
   normal:
     family: Hasklug Nerd Font
     style: Regular

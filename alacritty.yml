@@ -22,9 +22,9 @@ tabspaces: 8
 draw_bold_text_with_bright_colors: true
 dynamic_padding: false
 font:
-  # bold:
-    # family: Hasklug Nerd Font
-    # style: Bold
+  bold:
+    family: Hasklug Nerd Font
+    style: Bold
   normal:
     family: Hasklug Nerd Font
     style: Regular
@@ -92,14 +92,3 @@ cursor:
     shape: Block
     blinking: On
 
-hide_cursor_when_typing: false
-
-# Shell
-#
-# You can set shell.program to the path of your favorite shell, e.g. /bin/fish.
-# Entries in shell.args are passed unmodified as arguments to the shell.
-
-shell:
-  program: /usr/local/bin/zsh
-  args:
-    - --login

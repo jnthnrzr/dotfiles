@@ -90,7 +90,6 @@ plugins=(
     docker-compose
     gh
     git
-    pipenv
     pyenv
     python
     vi-mode

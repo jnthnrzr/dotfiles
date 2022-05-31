@@ -70,7 +70,7 @@ set number
 set path=**
 " show line and column number
 set ruler
-set shell=/usr/local/bin/zsh
+" set shell=/usr/local/bin/zsh
 " number of spaces for auto indent
 set shiftwidth=4
 " show command in bottom bar

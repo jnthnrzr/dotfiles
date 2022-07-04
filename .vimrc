@@ -151,3 +151,10 @@ let g:lightline = {'colorscheme': 'wombat'}
 " Set colorscheme
 " ---------------
 colorscheme gruvbox
+
+" -------------
+" Configure Coc
+" -------------
+
+" Refresh faster
+set updatetime=500

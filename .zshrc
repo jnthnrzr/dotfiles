@@ -142,3 +142,4 @@ export PATH="/usr/local/sbin:$PATH"
 # eval "$(pyenv virtualenv-init -)"
 eval "$(pyenv init -)"
 
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'

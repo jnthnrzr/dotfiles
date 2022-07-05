@@ -1,0 +1,9 @@
+{
+    "coc.preferences.formatOnSaveFiletypes": ["python"],
+    "coc.preferences.formatOnType": true,
+    "diagnostic.checkCurrentLine": true,
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false
+}

@@ -9,7 +9,6 @@ call plug#begin()
 Plug 'frazrepo/vim-rainbow', { 'for': 'python' }
 Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
-" Plug 'sainnhe/everforest'
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-sensible'
@@ -26,6 +25,9 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-tsserver'
+Plug 'fannheyward/coc-rust-analyzer'
+Plug 'fannheyward/coc-pyright'
 
 call plug#end()
 

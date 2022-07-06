@@ -4,7 +4,7 @@ env:
 window:
   dimensions:
     columns: 126
-    lines: 85
+    lines: 50
   position:
     x: 0
     y: 10

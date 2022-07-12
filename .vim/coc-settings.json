@@ -1,5 +1,5 @@
 {
-    "coc.preferences.formatOnSaveFiletypes": ["python"],
+    "coc.preferences.formatOnSaveFiletypes": ["python", "rust"],
     "coc.preferences.formatOnType": true,
     "diagnostic.checkCurrentLine": true,
     "python.formatting.provider": "black",

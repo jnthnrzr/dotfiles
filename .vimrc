@@ -13,7 +13,7 @@ Plug 'morhetz/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-dispatch', { 'for': 'python' }
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -25,6 +25,7 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-python/python-syntax', { 'for': 'python' }
 
 call plug#end()
 
@@ -94,6 +95,8 @@ set textwidth=100
 set wildmenu
 " ignore file patterns when searching for files
 set wildignore+=**/node_modules/**,**/.git/**,**/__pycache__/**
+" Enable built-in fuzzy command-line completion
+set wildoptions+=fuzzy
 " enable syntax processing
 syntax enable
 " hide status in favor of lightline
@@ -142,7 +145,7 @@ command! NewUuid :execute "python3 import uuid; print(uuid.uuid4());"
 " Set global variables
 " --------------------
 let g:gruvbox_italic='1'
-let g:gruvbox_bold='1'
+let g:gruvbox_bold='0'
 let g:gruvbox_italicize_comments='0'
 let g:gruvbox_italicize_strings='1'
 let g:gruvbox_improved_warnings='0'
@@ -154,6 +157,12 @@ let g:lightline = {'colorscheme': 'wombat'}
 " ---------------
 " Set colorscheme
 " ---------------
+let g:python_highlight_class_vars=1
+let g:python_highlight_all=1
+let g:python_highlight_func_calls=1
+let g:python_highlight_space_errors=1
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_hls_cursor='blue'
 colorscheme gruvbox
 
 " ---------------

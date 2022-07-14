@@ -25,9 +25,6 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-tsserver'
-Plug 'fannheyward/coc-rust-analyzer'
-Plug 'fannheyward/coc-pyright'
 
 call plug#end()
 
@@ -49,7 +46,7 @@ set t_Co=256
 " copy indent to next line
 set autoindent
 " show vertical line at column value
-set colorcolumn=80
+set colorcolumn=100
 " highlight current cursor line
 set cursorline
 " enter spaces when tab is pressed
@@ -92,9 +89,11 @@ set splitbelow
 " use 4 spaces to represent tab
 set tabstop=4
 " break lines for line length increases
-set textwidth=78
+set textwidth=100
 " visual autocomplete for command menu
 set wildmenu
+" ignore file patterns when searching for files
+set wildignore+=**/node_modules/**,**/.git/**,**/__pycache__/**
 " enable syntax processing
 syntax enable
 " hide status in favor of lightline
@@ -103,7 +102,6 @@ set noshowmode
 set completeopt=menu,menuone,preview
 set omnifunc=syntaxcomplete#Complete
 
-" autocmd CursorHold * silent call CocAction('highlight')
 
 " ----------------------
 " Configure cursor shape
@@ -158,9 +156,32 @@ let g:lightline = {'colorscheme': 'wombat'}
 " ---------------
 colorscheme gruvbox
 
+" ---------------
+" Set colorscheme
+" ---------------
+
+" Always move by display lines (wrapped)
+noremap j gj
+noremap k gk
+
+" Center line vertically when repeating a search
+nnoremap n nzz
+nnoremap N Nzz
+
 " -------------
 " Configure Coc
 " -------------
+
+autocmd CursorHold * silent call CocAction('highlight')
+
+let g:coc_global_extensions =
+            \ [
+            \ 'coc-json',
+            \ 'coc-pyright',
+            \ 'coc-rls',
+            \ 'coc-rust-analyzer',
+            \ 'coc-tsserver',
+            \ ]
 
 " Refresh faster
 set updatetime=500

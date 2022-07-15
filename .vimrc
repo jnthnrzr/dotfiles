@@ -26,6 +26,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-python/python-syntax', { 'for': 'python' }
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -183,14 +184,14 @@ nnoremap N Nzz
 
 autocmd CursorHold * silent call CocAction('highlight')
 
-let g:coc_global_extensions =
-            \ [
-            \ 'coc-json',
-            \ 'coc-pyright',
-            \ 'coc-rls',
-            \ 'coc-rust-analyzer',
-            \ 'coc-tsserver',
-            \ ]
+" let g:coc_global_extensions =
+"             \ [
+"             \ 'coc-json',
+"             \ 'coc-pyright',
+"             \ 'coc-rls',
+"             \ 'coc-rust-analyzer',
+"             \ 'coc-tsserver',
+"             \ ]
 
 " Refresh faster
 set updatetime=500

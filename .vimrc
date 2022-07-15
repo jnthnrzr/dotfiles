@@ -18,6 +18,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'jremmen/vim-ripgrep'
+Plug 'airblade/vim-gitgutter'
 Plug 'vim-python/python-syntax', { 'for': 'python' }
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }

@@ -4,7 +4,7 @@ env:
 window:
   dimensions:
     columns: 126
-    lines: 50
+    lines: 60
   position:
     x: 0
     y: 10
@@ -13,7 +13,7 @@ window:
     y: 8
   decorations: full
   opacity: 1.0
-  startup_mode: Windowed
+  # startup_mode: Windowed
   dynamic_title: false
 scrolling:
   history: 10000
@@ -91,4 +91,3 @@ cursor:
   style:
     shape: Block
     blinking: On
-

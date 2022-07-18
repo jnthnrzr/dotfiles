@@ -1,3 +1,55 @@
+" -------------
+" Configure Ale
+" -------------
+
+let g:ale_completion_enabled = 1
+let g:ale_linters =
+            \ {
+            \   'python': ['pyright'],
+            \   'rust': ['analyzer', 'cargo', 'rls']
+            \ }
+let g:ale_fixers =
+            \ {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'python': ['black', 'isort'],
+            \   'rust': ['rustfmt'],
+            \ }
+let g:ale_sign_column_always = 1
+let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
+let g:ale_rust_cargo_check_examples = 1
+let g:ale_rust_cargo_check_tests = 1
+let g:ale_rust_cargo_use_clippy = 1
+" let g:ale_rust_rustfmt_options = '--edition 2018'
+let g:ale_set_signs = 1
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '❔'
+let g:ale_virtualtext_cursor = 1
+
+" -----------------
+" Configure Airline
+" -----------------
+
+let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#tabline#enabled = 0
+let g:airline_powerline_fonts = 1
+let g:airline_theme='base16'
+
+" -------------------
+" Configure Signify
+" -------------------
+nnoremap <leader>gd :SignifyDiff<CR>
+nnoremap <leader>gp :SignifyHunkDiff<CR>
+nnoremap <leader>gu :SignifyHunkUndo<CR>
+
+" hunk jumping
+nmap <leader>gj <plug>(signify-next-hunk)
+nmap <leader>gk <plug>(signify-prev-hunk)
+
+" ---------------
+" Configure Plugs
+" ---------------
+
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  \
@@ -7,7 +59,6 @@ endif
 call plug#begin()
 
 Plug 'frazrepo/vim-rainbow', { 'for': 'python' }
-Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
 
 Plug 'jiangmiao/auto-pairs'
@@ -18,14 +69,17 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'jremmen/vim-ripgrep'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 Plug 'vim-python/python-syntax', { 'for': 'python' }
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'dense-analysis/ale'
 Plug 'vim-python/python-syntax', { 'for': 'python' }
 Plug 'rust-lang/rust.vim'
 
@@ -70,6 +124,8 @@ set laststatus=2
 set lazyredraw
 " allow newer features not compatible with old vi
 set nocompatible
+" Disable swap files
+set noswapfile
 " show line numbers
 set number
 " search everything
@@ -101,10 +157,10 @@ set wildignore+=**/node_modules/**,**/.git/**,**/__pycache__/**
 set wildoptions+=fuzzy
 " enable syntax processing
 syntax enable
-" hide status in favor of lightline
+" hide status in favor of airline/lightline
 set noshowmode
 
-set completeopt=menu,menuone,preview
+set completeopt=menu,menuone,preview "noselect,noinsert
 set omnifunc=syntaxcomplete#Complete
 
 
@@ -136,8 +192,8 @@ command! NewJournal :execute ":e" zettelkasten . "/journal_notes/" . strftime("%
             \ :execute "normal! Go" |
             \ startinsert!
 
-nnoremap <leader>nf :NewFleeting 
-nnoremap <leader>nl :NewLit 
+nnoremap <leader>nf :NewFleeting
+nnoremap <leader>nl :NewLit
 
 nnoremap <leader>nj :NewJournal<CR>
 
@@ -154,7 +210,6 @@ let g:gruvbox_improved_warnings='0'
 let g:gruvbox_improved_strings='0'
 let g:gruvbox_underline='0'
 let g:gruvbox_undercurl='1'
-let g:lightline = {'colorscheme': 'wombat'}
 
 " ---------------
 " Set colorscheme
@@ -172,30 +227,15 @@ colorscheme gruvbox
 " ---------------
 
 " Always move by display lines (wrapped)
-noremap j gj
-noremap k gk
+noremap <expr> j (v:count == 0 ? 'gj^' : 'j^')
+noremap <expr> k (v:count == 0 ? 'gk^' : 'k^')
 
 " Center line vertically when repeating a search
 nnoremap n nzz
 nnoremap N Nzz
 
-" -------------
-" Configure Coc
-" -------------
-
-autocmd CursorHold * silent call CocAction('highlight')
-
-" let g:coc_global_extensions =
-"             \ [
-"             \ 'coc-json',
-"             \ 'coc-pyright',
-"             \ 'coc-rls',
-"             \ 'coc-rust-analyzer',
-"             \ 'coc-tsserver',
-"             \ ]
-
 " Refresh faster
-set updatetime=500
+set updatetime=100
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -203,56 +243,56 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
+" function! ShowDocumentation()
+"   if CocAction('hasProvider', 'hover')
+"     call CocActionAsync('doHover')
+"   else
+"     call feedkeys('K', 'in')
+"   endif
+" endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
+" nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 " Map function and class text objects
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
+" xmap if <Plug>(coc-funcobj-i)
+" omap if <Plug>(coc-funcobj-i)
+" xmap af <Plug>(coc-funcobj-a)
+" omap af <Plug>(coc-funcobj-a)
+" xmap ic <Plug>(coc-classobj-i)
+" omap ic <Plug>(coc-classobj-i)
+" xmap ac <Plug>(coc-classobj-a)
+" omap ac <Plug>(coc-classobj-a)
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>

@@ -227,8 +227,8 @@ colorscheme gruvbox
 " ---------------
 
 " Always move by display lines (wrapped)
-noremap <expr> j (v:count == 0 ? 'gj^' : 'j^')
-noremap <expr> k (v:count == 0 ? 'gk^' : 'k^')
+noremap <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Center line vertically when repeating a search
 nnoremap n nzz

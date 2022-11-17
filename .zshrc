@@ -146,3 +146,6 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
+
+export PYTHONDONTWRITEBYTECODE=1
+export PATH="$HOME/.local/bin:$PATH"

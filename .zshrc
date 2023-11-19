@@ -129,18 +129,9 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Initialize pyenv
-# eval "$(pyenv init -)"
-
 # Initialize vi mode
 bindkey -v
 export PATH="/usr/local/sbin:$PATH"
-
-# Initialize pyenv
-# export PATH="~/.pyenv/bin:$PATH"
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
-eval "$(pyenv init -)"
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 export LANG="en_US.UTF-8"
@@ -149,3 +140,19 @@ export LC_CTYPE="en_US.UTF-8"
 
 export PYTHONDONTWRITEBYTECODE=1
 export PATH="$HOME/.local/bin:$PATH"
+
+export PNPM_HOME="/Users/jonathanrozario/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="/Users/jonathanrozario/.detaspace/bin:$PATH"
+
+if [ -f ~/.aliases ]; then
+    source ~/.aliases
+fi

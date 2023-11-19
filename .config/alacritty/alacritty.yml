@@ -13,7 +13,6 @@ window:
     y: 8
   decorations: full
   opacity: 1.0
-  # startup_mode: Windowed
   dynamic_title: false
 scrolling:
   history: 10000
@@ -38,7 +37,6 @@ font:
   glyph_offset:
     x: 0
     y: 0
-  use_thin_strokes: true
   render_timer: false
   custom_cursor_colors: false
 # Colors (Gruvbox dark)

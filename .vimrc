@@ -1,50 +1,17 @@
-" -------------
-" Configure Ale
-" -------------
-
-let g:ale_completion_enabled = 1
 let g:ale_linters =
             \ {
-            \   'python': ['pyright'],
-            \   'rust': ['analyzer', 'cargo', 'rls']
+            \   'rust': ['analyzer', 'cargo', 'rls'],
+            \   'javascript': ['eslint']
             \ }
 let g:ale_fixers =
             \ {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'python': ['black', 'isort'],
             \   'rust': ['rustfmt'],
+            \   'javascript': ['eslint'],
+            \   'typescript': ['prettier', 'tslint'],
+            \   'scss': ['prettier'],
+            \   'html': ['prettier'],
             \ }
-let g:ale_sign_column_always = 1
-let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 1
-let g:ale_rust_cargo_check_examples = 1
-let g:ale_rust_cargo_check_tests = 1
-let g:ale_rust_cargo_use_clippy = 1
-" let g:ale_rust_rustfmt_options = '--edition 2018'
-let g:ale_set_signs = 1
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '❔'
-let g:ale_virtualtext_cursor = 1
-
-" -----------------
-" Configure Airline
-" -----------------
-
-let g:airline#extensions#ale#enabled = 1
-" let g:airline#extensions#tabline#enabled = 0
-let g:airline_powerline_fonts = 1
-let g:airline_theme='base16'
-
-" -------------------
-" Configure Signify
-" -------------------
-nnoremap <leader>gd :SignifyDiff<CR>
-nnoremap <leader>gp :SignifyHunkDiff<CR>
-nnoremap <leader>gu :SignifyHunkUndo<CR>
-
-" hunk jumping
-nmap <leader>gj <plug>(signify-next-hunk)
-nmap <leader>gk <plug>(signify-prev-hunk)
 
 " ---------------
 " Configure Plugs
@@ -52,28 +19,16 @@ nmap <leader>gk <plug>(signify-prev-hunk)
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 call plug#begin()
 
-Plug 'frazrepo/vim-rainbow', { 'for': 'python' }
 Plug 'morhetz/gruvbox'
 
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'jremmen/vim-ripgrep'
-" Plug 'airblade/vim-gitgutter'
-Plug 'mhinz/vim-signify'
-Plug 'vim-python/python-syntax', { 'for': 'python' }
-Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
@@ -86,9 +41,6 @@ Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
-" ---------------------------
-" Configure looks and visuals
-" ---------------------------
 set encoding=utf-8
 set hidden
 set nobackup
@@ -160,10 +112,8 @@ set wildoptions+=fuzzy
 syntax enable
 " hide status in favor of airline/lightline
 set noshowmode
-
-set completeopt=menu,menuone,preview "noselect,noinsert
-set omnifunc=syntaxcomplete#Complete
-
+" Make backspace work like other programs
+set backspace=indent,eol,start
 
 " ----------------------
 " Configure cursor shape
@@ -178,6 +128,17 @@ set omnifunc=syntaxcomplete#Complete
 let &t_SI.="\e[1 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
 let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
+
+" ---------------
+" Set colorscheme
+" ---------------
+let g:python_highlight_class_vars=1
+let g:python_highlight_all=1
+let g:python_highlight_func_calls=1
+let g:python_highlight_space_errors=1
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_hls_cursor='blue'
+colorscheme gruvbox
 
 " ----------------------
 " Configure zettelkasten
@@ -198,102 +159,3 @@ nnoremap <leader>nl :NewLit
 
 nnoremap <leader>nj :NewJournal<CR>
 
-command! NewUuid :execute "python3 import uuid; print(uuid.uuid4());"
-
-" --------------------
-" Set global variables
-" --------------------
-let g:gruvbox_italic='1'
-let g:gruvbox_bold='0'
-let g:gruvbox_italicize_comments='0'
-let g:gruvbox_italicize_strings='1'
-let g:gruvbox_improved_warnings='0'
-let g:gruvbox_improved_strings='0'
-let g:gruvbox_underline='0'
-let g:gruvbox_undercurl='1'
-
-" ---------------
-" Set colorscheme
-" ---------------
-let g:python_highlight_class_vars=1
-let g:python_highlight_all=1
-let g:python_highlight_func_calls=1
-let g:python_highlight_space_errors=1
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_hls_cursor='blue'
-colorscheme gruvbox
-
-" ---------------
-" Set colorscheme
-" ---------------
-
-" Always move by display lines (wrapped)
-noremap <expr> j (v:count == 0 ? 'gj' : 'j')
-noremap <expr> k (v:count == 0 ? 'gk' : 'k')
-
-" Center line vertically when repeating a search
-nnoremap n nzz
-nnoremap N Nzz
-
-" Refresh faster
-set updatetime=100
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-" nnoremap <silent> K :call ShowDocumentation()<CR>
-
-" function! ShowDocumentation()
-"   if CocAction('hasProvider', 'hover')
-"     call CocActionAsync('doHover')
-"   else
-"     call feedkeys('K', 'in')
-"   endif
-" endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming
-" nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-" xmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>f  <Plug>(coc-format-selected)
-
-" Map function and class text objects
-" xmap if <Plug>(coc-funcobj-i)
-" omap if <Plug>(coc-funcobj-i)
-" xmap af <Plug>(coc-funcobj-a)
-" omap af <Plug>(coc-funcobj-a)
-" xmap ic <Plug>(coc-classobj-i)
-" omap ic <Plug>(coc-classobj-i)
-" xmap ac <Plug>(coc-classobj-a)
-" omap ac <Plug>(coc-classobj-a)
-
-" Mappings for CoCList
-" Show all diagnostics.
-" nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-" nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-" nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-" nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-" nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-" nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-" nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>

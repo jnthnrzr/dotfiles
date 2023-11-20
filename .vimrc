@@ -1,7 +1,27 @@
+" ---------------
+" Dispatch config
+" ---------------
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+
+nnoremap <silent> <F5> :Dispatch<CR>
+nnoremap <silent> <F6> :call ToggleQuickFix()<CR>
+
+" Use Vim 8 job support for vim-dispatch
+let g:dispatch_no_tmux_make = 1
+let g:dispatch_no_tmux_start = 1
+
 " -------------
 " Auto commands
 " -------------
 autocmd FileType python let b:dispatch = 'python %'
+
+nnoremap <silent> <F2> :ALERename<CR>
 
 " ----------
 " ALE config
@@ -58,6 +78,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
@@ -74,7 +95,6 @@ set encoding=utf-8
 set hidden
 set nobackup
 set nowritebackup
-set background=dark
 let g:rainbow_active = 1
 " load filetype-specific indent files
 filetype plugin indent on
@@ -100,6 +120,8 @@ set foldmethod=indent
 set foldnestmax=10
 " highlight matches
 set hlsearch
+" search as you type
+set incsearch
 " view the statusline
 set laststatus=2
 " redraw only when we need to
@@ -143,6 +165,8 @@ syntax enable
 set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
+" Set Airline theme
+let g:airline_theme='angr'
 
 " ----------------------
 " Configure cursor shape

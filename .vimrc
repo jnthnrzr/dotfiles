@@ -1,17 +1,37 @@
+" -------------
+" Auto commands
+" -------------
+autocmd FileType python let b:dispatch = 'python %'
+
+" ----------
+" ALE config
+" ----------
+let g:ale_completion_enabled = 1
+let g:ale_fix_on_save = 1
 let g:ale_linters =
             \ {
+            \   'javascript': ['eslint'],
+            \   'python': ['flake8', 'mypy', 'pycln', 'pyright'],
             \   'rust': ['analyzer', 'cargo', 'rls'],
-            \   'javascript': ['eslint']
             \ }
 let g:ale_fixers =
             \ {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'rust': ['rustfmt'],
-            \   'javascript': ['eslint'],
-            \   'typescript': ['prettier', 'tslint'],
-            \   'scss': ['prettier'],
             \   'html': ['prettier'],
+            \   'javascript': ['eslint'],
+            \   'python': [
+            \       'autoflake',
+            \       'black',
+            \       'isort',
+            \       'pycln',
+            \       'remove_trailing_lines',
+            \       'trim_whitespace',
+            \   ],
+            \   'rust': ['rustfmt'],
+            \   'scss': ['prettier'],
+            \   'typescript': ['prettier', 'tslint'],
             \ }
+let g:airline#extensions#ale#enabled = 1
 
 " ---------------
 " Configure Plugs
@@ -22,22 +42,31 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
 call plug#begin()
 
+" Theme
 Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
+" IDE
+Plug 'dense-analysis/ale'
+Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
+" Languages
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'dense-analysis/ale'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-python/python-syntax', { 'for': 'python' }
-Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -158,4 +187,3 @@ nnoremap <leader>nf :NewFleeting
 nnoremap <leader>nl :NewLit
 
 nnoremap <leader>nj :NewJournal<CR>
-

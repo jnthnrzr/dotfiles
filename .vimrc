@@ -26,6 +26,9 @@ nnoremap <silent> <F2> :ALERename<CR>
 " ----------
 " ALE config
 " ----------
+let g:ale_floating_preview = 1
+let g:ale_cursor_detail = 1
+let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
 let g:ale_linters =

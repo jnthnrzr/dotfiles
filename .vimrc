@@ -1,28 +1,3 @@
-" ---------------
-" Dispatch config
-" ---------------
-function! ToggleQuickFix()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-        copen
-    else
-        cclose
-    endif
-endfunction
-
-nnoremap <silent> <F5> :Dispatch<CR>
-nnoremap <silent> <F6> :call ToggleQuickFix()<CR>
-
-" Use Vim 8 job support for vim-dispatch
-let g:dispatch_no_tmux_make = 1
-let g:dispatch_no_tmux_start = 1
-
-" -------------
-" Auto commands
-" -------------
-autocmd FileType python let b:dispatch = 'python %'
-
-nnoremap <silent> <F2> :ALERename<CR>
-
 " ----------
 " ALE config
 " ----------
@@ -42,14 +17,7 @@ let g:ale_fixers =
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
             \   'html': ['prettier'],
             \   'javascript': ['eslint'],
-            \   'python': [
-            \       'autoflake',
-            \       'black',
-            \       'isort',
-            \       'pycln',
-            \       'remove_trailing_lines',
-            \       'trim_whitespace',
-            \   ],
+            \   'python': ['autoflake', 'black', 'isort', 'pycln'],
             \   'rust': ['rustfmt'],
             \   'scss': ['prettier'],
             \   'typescript': ['prettier', 'tslint'],
@@ -59,12 +27,6 @@ let g:airline#extensions#ale#enabled = 1
 " ---------------
 " Configure Plugs
 " ---------------
-
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
 
 call plug#begin()
 
@@ -79,6 +41,7 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
@@ -214,3 +177,27 @@ nnoremap <leader>nf :NewFleeting
 nnoremap <leader>nl :NewLit
 
 nnoremap <leader>nj :NewJournal<CR>
+
+" ----------
+" IDE config
+" ----------
+autocmd FileType python let b:dispatch = 'python %'
+
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+
+nnoremap <silent> <F2> :ALERename<CR>
+nnoremap <silent> <F3> :ALESymbolSearch <C-r><C-w><CR>
+nnoremap <silent> <F4> :ALEGoToDefinition<CR>
+nnoremap <silent> <F5> :Dispatch<CR>
+nnoremap <silent> <F6> :call ToggleQuickFix()<CR>
+nnoremap <silent> <F7> :ALELint<CR>
+
+" Use Vim 8 job support for vim-dispatch
+let g:dispatch_no_tmux_make = 1
+let g:dispatch_no_tmux_start = 1

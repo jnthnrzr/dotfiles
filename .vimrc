@@ -10,7 +10,7 @@ let g:ale_linters =
             \ {
             \   'javascript': ['eslint'],
             \   'python': ['flake8', 'mypy', 'pycln', 'pyright'],
-            \   'rust': ['analyzer', 'cargo', 'rls'],
+            \   'rust': ['analyzer'],
             \ }
 let g:ale_fixers =
             \ {
@@ -22,7 +22,14 @@ let g:ale_fixers =
             \   'scss': ['prettier'],
             \   'typescript': ['prettier', 'tslint'],
             \ }
+let g:ale_rust_cargo_use_clippy = 1
 let g:airline#extensions#ale#enabled = 1
+
+let g:dispatch_compilers = {
+            \ 'poetry run pytest': '',
+            \ 'python': 'python',
+            \ 'rust': 'cargo clippy',
+            \ }
 
 " ---------------
 " Configure Plugs
@@ -37,8 +44,10 @@ Plug 'vim-airline/vim-airline-themes'
 
 " IDE
 Plug 'dense-analysis/ale'
-Plug 'frazrepo/vim-rainbow'
-Plug 'jiangmiao/auto-pairs'
+Plug 'frazrepo/vim-rainbow', {'for': ['javascript', 'python', 'rust', 'typescript'] }
+Plug 'jiangmiao/auto-pairs', {'for': ['javascript', 'python', 'rust', 'typescript'] }
+Plug 'michaeljsmith/vim-indent-object', {'for': 'python'}
+Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
@@ -49,8 +58,13 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
+Plug 'SirVer/ultisnips', { 'for': 'go' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'jparise/vim-graphql', { 'for': 'graphql' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-python/python-syntax', { 'for': 'python' }
@@ -71,7 +85,7 @@ set t_Co=256
 " copy indent to next line
 set autoindent
 " show vertical line at column value
-set colorcolumn=100
+" set colorcolumn=100
 " highlight current cursor line
 set cursorline
 " enter spaces when tab is pressed
@@ -181,7 +195,9 @@ nnoremap <leader>nj :NewJournal<CR>
 " ----------
 " IDE config
 " ----------
-autocmd FileType python let b:dispatch = 'python %'
+autocmd FileType python let b:dispatch='python %'
+autocmd FileType python setlocal makeprg=poetry\ run\ pytest
+autocmd FileType rust let b:dispatch = 'cargo clippy'
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
@@ -196,7 +212,8 @@ nnoremap <silent> <F3> :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F4> :ALEGoToDefinition<CR>
 nnoremap <silent> <F5> :Dispatch<CR>
 nnoremap <silent> <F6> :call ToggleQuickFix()<CR>
-nnoremap <silent> <F7> :ALELint<CR>
+nnoremap <silent> <F7> :Make<CR>
+nnoremap <silent> <F8> :ALELint<CR>
 
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1

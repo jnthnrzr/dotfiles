@@ -23,7 +23,7 @@ let g:ale_fixers =
             \   'typescript': ['prettier', 'tslint'],
             \ }
 let g:ale_rust_cargo_use_clippy = 1
-let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#ale#enabled = 1
 
 let g:dispatch_compilers = {
             \ 'poetry run pytest': '',

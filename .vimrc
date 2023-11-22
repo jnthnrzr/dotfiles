@@ -1,35 +1,25 @@
 " ----------
 " ALE config
 " ----------
-let g:ale_floating_preview = 1
-let g:ale_cursor_detail = 1
 let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
-let g:ale_linters =
-            \ {
-            \   'javascript': ['eslint'],
-            \   'python': ['flake8', 'mypy', 'pycln', 'pyright'],
-            \   'rust': ['analyzer'],
-            \ }
-let g:ale_fixers =
-            \ {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'html': ['prettier'],
-            \   'javascript': ['eslint'],
-            \   'python': ['autoflake', 'black', 'isort', 'pycln'],
-            \   'rust': ['rustfmt'],
-            \   'scss': ['prettier'],
-            \   'typescript': ['prettier', 'tslint'],
-            \ }
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'html': ['prettier'],
+\   'javascript': ['eslint'],
+\   'python': ['autoflake', 'black', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
+\   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
+\   'scss': ['prettier'],
+\   'typescript': ['prettier', 'tslint'],
+\ }
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['flake8', 'mypy', 'pyright'],
+\   'rust': ['cspell', 'cargo'],
+\ }
 let g:ale_rust_cargo_use_clippy = 1
-" let g:airline#extensions#ale#enabled = 1
-
-let g:dispatch_compilers = {
-            \ 'poetry run pytest': '',
-            \ 'python': 'python',
-            \ 'rust': 'cargo clippy',
-            \ }
+let g:airline#extensions#ale#enabled = 1
 
 " ---------------
 " Configure Plugs
@@ -67,7 +57,6 @@ Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'vim-python/python-syntax', { 'for': 'python' }
 
 call plug#end()
 
@@ -146,7 +135,7 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='angr'
+let g:airline_theme='behelit'
 
 " ----------------------
 " Configure cursor shape
@@ -195,9 +184,19 @@ nnoremap <leader>nj :NewJournal<CR>
 " ----------
 " IDE config
 " ----------
-autocmd FileType python let b:dispatch='python %'
-autocmd FileType python setlocal makeprg=poetry\ run\ pytest
-autocmd FileType rust let b:dispatch = 'cargo clippy'
+augroup select_compiler
+    au!
+    au BufRead * try | execute "compiler ".&filetype | catch /./ | endtry
+    au FileType rust let b:dispatch='cargo clippy'
+augroup END
+
+" augroup stuff_for_rust
+"     au!
+" augroup END
+
+" autocmd FileType python let b:dispatch='poetry run python %'
+" autocmd FileType python setlocal makeprg=poetry\ run\ pytest
+" autocmd FileType rust let b:dispatch = 'cargo clippy'
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
@@ -207,14 +206,23 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-nnoremap <silent> <F2> :ALERename<CR>
-nnoremap <silent> <F3> :ALESymbolSearch <C-r><C-w><CR>
-nnoremap <silent> <F4> :ALEGoToDefinition<CR>
-nnoremap <silent> <F5> :Dispatch<CR>
-nnoremap <silent> <F6> :call ToggleQuickFix()<CR>
-nnoremap <silent> <F7> :Make<CR>
-nnoremap <silent> <F8> :ALELint<CR>
+nnoremap <silent> <F2>  :ALERename<CR>
+nnoremap <silent> <F3>  :ALESymbolSearch <C-r><C-w><CR>
+nnoremap <silent> <F4>  :ALEGoToDefinition<CR>
+" For running a program
+nnoremap <silent> <F5>  :Dispatch<CR>
+nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
+" For running tests
+nnoremap <silent> <F7>  :Make<CR>
+nnoremap <silent> <F8>  :ALELint<CR>
+nnoremap <silent> <F10> :ALEInfo<CR>
+
+nnoremap <silent> <leader>p <Plug>(ale_previous_wrap)
+nnoremap <silent> <leader>n <Plug>(ale_next_wrap)
 
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
 let g:dispatch_no_tmux_start = 1
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1

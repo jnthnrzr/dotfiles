@@ -15,7 +15,7 @@ let g:ale_fixers = {
 \ }
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['flake8', 'mypy', 'pyright'],
+\   'python': ['pyright', 'flake8', 'mypy'],
 \   'rust': ['cspell', 'cargo'],
 \ }
 let g:ale_rust_cargo_use_clippy = 1
@@ -34,9 +34,9 @@ Plug 'vim-airline/vim-airline-themes'
 
 " IDE
 Plug 'dense-analysis/ale'
-Plug 'frazrepo/vim-rainbow', {'for': ['javascript', 'python', 'rust', 'typescript'] }
-Plug 'jiangmiao/auto-pairs', {'for': ['javascript', 'python', 'rust', 'typescript'] }
-Plug 'michaeljsmith/vim-indent-object', {'for': 'python'}
+Plug 'frazrepo/vim-rainbow'
+Plug 'jiangmiao/auto-pairs'
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -73,8 +73,6 @@ let mapleader = ","
 set t_Co=256
 " copy indent to next line
 set autoindent
-" show vertical line at column value
-" set colorcolumn=100
 " highlight current cursor line
 set cursorline
 " enter spaces when tab is pressed
@@ -135,7 +133,8 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='behelit'
+let g:airline_theme='term'
+let g:airline_powerline_fonts = 1
 
 " ----------------------
 " Configure cursor shape
@@ -184,20 +183,6 @@ nnoremap <leader>nj :NewJournal<CR>
 " ----------
 " IDE config
 " ----------
-augroup select_compiler
-    au!
-    au BufRead * try | execute "compiler ".&filetype | catch /./ | endtry
-    au FileType rust let b:dispatch='cargo clippy'
-augroup END
-
-" augroup stuff_for_rust
-"     au!
-" augroup END
-
-" autocmd FileType python let b:dispatch='poetry run python %'
-" autocmd FileType python setlocal makeprg=poetry\ run\ pytest
-" autocmd FileType rust let b:dispatch = 'cargo clippy'
-
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
         copen
@@ -209,10 +194,8 @@ endfunction
 nnoremap <silent> <F2>  :ALERename<CR>
 nnoremap <silent> <F3>  :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F4>  :ALEGoToDefinition<CR>
-" For running a program
 nnoremap <silent> <F5>  :Dispatch<CR>
 nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
-" For running tests
 nnoremap <silent> <F7>  :Make<CR>
 nnoremap <silent> <F8>  :ALELint<CR>
 nnoremap <silent> <F10> :ALEInfo<CR>
@@ -223,6 +206,3 @@ nnoremap <silent> <leader>n <Plug>(ale_next_wrap)
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
 let g:dispatch_no_tmux_start = 1
-
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1

@@ -4,9 +4,9 @@
 let g:ale_close_preview_on_insert = 1
 let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
+" \   'html': ['prettier'],
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'html': ['prettier'],
 \   'javascript': ['eslint'],
 \   'python': ['autoflake', 'black', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
@@ -33,11 +33,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " IDE
+Plug 'SirVer/ultisnips'
 Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
@@ -48,7 +48,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
-Plug 'SirVer/ultisnips', { 'for': 'go' }
+Plug 'SirVer/ultisnips', { 'for': ['go', 'python'] }
+Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
@@ -200,9 +201,16 @@ nnoremap <silent> <F7>  :Make<CR>
 nnoremap <silent> <F8>  :ALELint<CR>
 nnoremap <silent> <F10> :ALEInfo<CR>
 
-nnoremap <silent> <leader>p <Plug>(ale_previous_wrap)
+nnoremap <silent> <leader>N <Plug>(ale_previous_wrap)
 nnoremap <silent> <leader>n <Plug>(ale_next_wrap)
 
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
 let g:dispatch_no_tmux_start = 1
+
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:ultisnips_python_style="sphinx"

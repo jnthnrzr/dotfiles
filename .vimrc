@@ -39,6 +39,8 @@ Plug 'SirVer/ultisnips'
 Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -125,10 +127,21 @@ set tabstop=4
 set textwidth=100
 " visual autocomplete for command menu
 set wildmenu
-" ignore file patterns when searching for files
-set wildignore+=**/node_modules/**,**/.git/**,**/__pycache__/**
 " Enable built-in fuzzy command-line completion
 set wildoptions+=fuzzy
+" ignore directory and file patterns when searching for files
+set wildignore+=**/node_modules/**
+set wildignore+=**/.git/**
+set wildignore+=**/__pycache__/**
+set wildignore+=**/.mypy_cache/**
+set wildignore+=*.DS_Store
+set wildignore+=*.pdf
+set wildignore+=*.jpg
+set wildignore+=*.jpeg
+set wildignore+=*.png
+set wildignore+=*.ico
+" check spelling
+set spell spelllang=en_us
 " enable syntax processing
 syntax enable
 " hide status in favor of airline/lightline
@@ -192,12 +205,14 @@ function! ToggleQuickFix()
     else
         cclose
         lclose
+        pclose
     endif
 endfunction
 
+" nnoremap <silent> <F3>  :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F2>  :ALERename<CR>
-nnoremap <silent> <F3>  :ALESymbolSearch <C-r><C-w><CR>
-nnoremap <silent> <F4>  :ALEGoToDefinition<CR>
+nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
+nnoremap <silent> <F4>  :ALEHover<C-r><C-w><CR>
 nnoremap <silent> <F5>  :Dispatch<CR>
 nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
 nnoremap <silent> <F7>  :Make<CR>
@@ -218,19 +233,4 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:ultisnips_python_style="sphinx"
 
-" if executable('rg')
-"     set grepprg=rg\ --vimgrep\ --hidden\ -glob\ '!.git'
-" endif
-
-" if executable("rg")
-"   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --glob\ '!.git'\ $*\ >/dev/null
-"   set grepformat=%f:%l:%c:%m
-" endif
-
-" cnoreabbrev <expr> lgrep 'silent lgrep'
-
-" augroup init_quickfix
-"   autocmd!
-"   autocmd QuickFixCmdPost [^l]* cwindow
-"   autocmd QuickFixCmdPost l* lopen
-" augroup END
+nnoremap <silent> <Leader>f :Rg<CR>

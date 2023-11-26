@@ -35,7 +35,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " IDE
-Plug 'SirVer/ultisnips'
 Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
@@ -222,11 +221,13 @@ nnoremap <silent> <F10> :ALEInfo<CR>
 nnoremap <silent> <leader>N <Plug>(ale_previous_wrap)
 nnoremap <silent> <leader>n <Plug>(ale_next_wrap)
 
+nnoremap <silent> <C-l> /noh<CR><C-l>
+
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
 let g:dispatch_no_tmux_start = 1
 
-let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"

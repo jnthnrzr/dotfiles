@@ -42,6 +42,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
@@ -209,10 +210,9 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-" nnoremap <silent> <F3>  :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F2>  :ALERename<CR>
 nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
-nnoremap <silent> <F4>  :ALEHover<C-r><C-w><CR>
+nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F5>  :Dispatch<CR>
 nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
 nnoremap <silent> <F7>  :Make<CR>

@@ -1,0 +1,17 @@
+snippet pr "pr title and body"
+${1:feat|fix|chore|}: ${2:AF-`git rev-parse --abbrev-ref HEAD | cut -d '-' -f 2`}: ${3:TODO PR Title}
+
+Ticket: https://www.google.com/$2
+
+### Description
+
+${4:TODO}
+
+### Testing
+
+${5:TODO}
+
+$0
+endsnippet
+
+# vim:ft=snippets:

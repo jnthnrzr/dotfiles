@@ -9,6 +9,7 @@ let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
+\   'markdown': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['autoflake', 'black', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
 \   'scss': ['prettier'],
@@ -87,7 +88,7 @@ set foldenable
 " open most folds by default
 set foldlevelstart=10
 " fold based on indent level
-set foldmethod=indent
+set foldmethod=syntax
 " 10 nested fold max
 set foldnestmax=10
 " highlight matches
@@ -176,6 +177,7 @@ let g:python_highlight_space_errors=1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_hls_cursor='blue'
 colorscheme gruvbox
+set background=dark
 
 " ----------------------
 " Configure zettelkasten

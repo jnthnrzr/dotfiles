@@ -237,3 +237,16 @@ let g:UltiSnipsEditSplit="vertical"
 let g:ultisnips_python_style="sphinx"
 
 nnoremap <silent> <Leader>f :Rg<CR>
+
+" -------
+" Gruvbox
+" -------
+let g:gruvbox_hls_cursor='orange'
+
+nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+
+nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?

@@ -59,7 +59,7 @@ CompilerSet efm +=%-G%.%#
 if filereadable("Makefile")
   CompilerSet makeprg=make
 else
-  CompilerSet makeprg=python\ %
+  CompilerSet makeprg=poetry\ run\ python\ %
 endif
 
 " vim:foldmethod=marker:foldlevel=0

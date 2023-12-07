@@ -90,6 +90,8 @@ plugins=(
     docker-compose
     gh
     git
+    jira
+    kubectl
     pyenv
     python
     vi-mode

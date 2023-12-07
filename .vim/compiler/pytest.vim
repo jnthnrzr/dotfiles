@@ -8,6 +8,9 @@ if exists('current_compiler')
 endif
 let current_compiler = 'pytest'
 
+" Calling :Dispatch will run tests for the current file
+let b:dispatch = 'pytest --tb=short -vv %'
+
 if exists(':CompilerSet') != 2  " older Vim always used :setlocal
     command -nargs=* CompilerSet setlocal <args>
 endif

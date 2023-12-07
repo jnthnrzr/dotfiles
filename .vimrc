@@ -22,6 +22,7 @@ let g:ale_linters = {
 \ }
 let g:ale_rust_cargo_use_clippy = 1
 let g:ale_set_loclist = 0
+let g:ale_virtualtext_cursor = 'disabled'
 let g:airline#extensions#ale#enabled = 1
 
 " ---------------
@@ -63,6 +64,7 @@ Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'vim-python/python-syntax', { 'for': 'python' }
 
 call plug#end()
 
@@ -170,9 +172,7 @@ let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 " ---------------
 " Set colorscheme
 " ---------------
-let g:python_highlight_class_vars=1
 let g:python_highlight_all=1
-let g:python_highlight_func_calls=1
 let g:python_highlight_space_errors=1
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_hls_cursor='blue'

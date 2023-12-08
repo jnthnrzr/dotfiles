@@ -214,7 +214,7 @@ endfunction
 nnoremap <silent> <F2>  :ALERename<CR>
 nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
 nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
-nnoremap <silent> <F5>  :Dispatch<CR>
+nnoremap <silent> <F5>  :Dispatch!<CR>
 nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
 nnoremap <silent> <F7>  :Make<CR>
 nnoremap <silent> <F8>  :ALELint<CR>

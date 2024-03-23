@@ -45,9 +45,14 @@ function build_autojump() {
     brew install autojump
 }
 
+function build_zsh_syntax_highlighting() {
+    brew install zsh-syntax-highlighting
+}
+
 TARGETS=(
     "autojump"
     "pyenv"
+    "zsh-syntax-highlighting"
 )
 
 for TARGET in "${TARGETS[@]}"

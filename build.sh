@@ -10,6 +10,7 @@ fi
 
 REQUIRED=(
     "brew"
+    "vim"
     "zsh"
 )
 
@@ -17,6 +18,10 @@ function build_brew() {
     NONINTERACTIVE=1 /bin/bash -c \
         "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     source ~/.zprofile
+}
+
+function build_vim() {
+    brew install vim
 }
 
 function build_zsh() {
@@ -37,30 +42,13 @@ do
     build_program $PROG
 done
 
-function build_autojump() {
-    brew install autojump
-}
-
-function build_pyenv() {
-    brew install pyenv
-}
-
-function build_tmux() {
-    brew install tmux
-}
-
-function build_vim() {
-    brew install vim
-}
-
 TARGETS=(
     "autojump"
     "pyenv"
     "tmux"
-    "vim"
 )
 
 for TARGET in "${TARGETS[@]}"
 do
-    build_program $TARGET
+    brew install $TARGET
 done

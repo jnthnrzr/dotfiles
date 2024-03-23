@@ -1,5 +1,6 @@
 # Add brew to PATH
-export PATH="/opt/homebrew/bin:$PATH"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+# export PATH="/opt/homebrew/bin:$PATH"
 
 # if command -v brew &> /dev/null; then
 #     export PATH="/opt/homebrew/bin:$PATH"

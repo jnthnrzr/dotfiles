@@ -1,10 +1,10 @@
-# Add brew to PATH
+# brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
-# export PATH="/opt/homebrew/bin:$PATH"
 
-# if command -v brew &> /dev/null; then
-#     export PATH="/opt/homebrew/bin:$PATH"
-# fi
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 # export PATH="$HOME/.cargo/bin:$PATH"
 # eval "$(pyenv init --path)"

@@ -1,7 +1,9 @@
 # Add brew to PATH
-if command -v brew &> /dev/null; then
-    export PATH="/opt/homebrew/bin:$PATH"
-fi
+export PATH="/opt/homebrew/bin:$PATH"
+
+# if command -v brew &> /dev/null; then
+#     export PATH="/opt/homebrew/bin:$PATH"
+# fi
 
 # export PATH="$HOME/.cargo/bin:$PATH"
 # eval "$(pyenv init --path)"

@@ -16,6 +16,7 @@ REQUIRED=(
 function build_brew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    source ~/.zprofile
 }
 
 function build_zsh() {

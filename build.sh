@@ -9,13 +9,20 @@ then
     exit
 fi
 
-TARGETS=(
-    "brew"
-    "chezmoi"
-    "pyenv"
-    "zsh"
-)
-MISSING=()
+function build_brew() {
+    echo "Setting up homebrew"
+}
+
+
+function build_program() {
+    if command -v $1 &> /dev/null; then
+        :
+    else
+        build_$1
+    fi
+}
+
+build_program brew
 
 function build_pyenv() {
     printf "Setting up pyenv\n"
@@ -25,15 +32,13 @@ function build_chezmoi() {
     printf "Setting up chezmoi\n"
 }
 
+TARGETS=(
+    "chezmoi"
+    "pyenv"
+    "zsh"
+)
+
 for TARGET in "${TARGETS[@]}"
 do
-    if ! command -v $TARGET &> /dev/null
-    then
-        MISSING+=("$TARGET")
-    fi
-done
-
-for PROG in "${MISSING[@]}"
-do
-    build_$PROG
+    build_program $TARGET
 done

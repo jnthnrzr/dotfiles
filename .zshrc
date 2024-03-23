@@ -1,3 +1,5 @@
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
     echo "powerlevel10k not installed. Downloading..."
     git clone --depth=1 \

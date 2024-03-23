@@ -52,7 +52,7 @@ function build_zsh_syntax_highlighting() {
 TARGETS=(
     "autojump"
     "pyenv"
-    "zsh-syntax-highlighting"
+    "zsh_syntax_highlighting"
 )
 
 for TARGET in "${TARGETS[@]}"

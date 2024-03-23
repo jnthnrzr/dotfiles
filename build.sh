@@ -49,15 +49,15 @@ function build_tmux() {
     brew install tmux
 }
 
-function build_zsh_syntax_highlighting() {
-    brew install zsh-syntax-highlighting
+function build_vim() {
+    brew install vim
 }
 
 TARGETS=(
     "autojump"
     "pyenv"
     "tmux"
-    "zsh_syntax_highlighting"
+    "vim"
 )
 
 for TARGET in "${TARGETS[@]}"

@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 set -efou pipefail
 
-PLATFORM=$(uname -s)
-
 # Proceed forward if this is OS X
+PLATFORM=$(uname -s)
 if [[ $PLATFORM != 'Darwin' ]]
 then
     exit
 fi
 
+REQUIRED=(
+    "brew"
+    "zsh"
+)
+
 function build_brew() {
-    echo "Setting up homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+function build_zsh() {
+    brew install zsh
 }
 
 
@@ -22,20 +30,22 @@ function build_program() {
     fi
 }
 
-build_program brew
+for PROG in "${REQUIRED[@]}"
+do
+    build_program $PROG
+done
 
 function build_pyenv() {
-    printf "Setting up pyenv\n"
+    brew install pyenv
 }
 
-function build_chezmoi() {
-    printf "Setting up chezmoi\n"
+function build_autojump() {
+    brew install autojump
 }
 
 TARGETS=(
-    "chezmoi"
+    "autojump"
     "pyenv"
-    "zsh"
 )
 
 for TARGET in "${TARGETS[@]}"

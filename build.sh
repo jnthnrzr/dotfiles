@@ -8,47 +8,36 @@ then
     exit
 fi
 
-REQUIRED=(
-    "brew"
-    "vim"
-    "zsh"
-)
-
 function build_brew() {
     NONINTERACTIVE=1 /bin/bash -c \
         "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     source ~/.zprofile
 }
 
-function build_vim() {
-    brew install vim
+function build_dependencies() {
+    REQUIRED=(
+        "git"
+        "vim"
+        "zsh"
+    )
+
+    for PROG in "${REQUIRED[@]}"
+    do
+        brew install $PROG
+    done
+
+    TARGETS=(
+        "autojump"
+        "pyenv"
+        "tmux"
+    )
+
+    for TARGET in "${TARGETS[@]}"
+    do
+        brew install $TARGET
+    done
 }
 
-function build_zsh() {
-    brew install zsh
-}
 
-
-function build_program() {
-    if command -v $1 &> /dev/null; then
-        :
-    else
-        build_$1
-    fi
-}
-
-for PROG in "${REQUIRED[@]}"
-do
-    build_program $PROG
-done
-
-TARGETS=(
-    "autojump"
-    "pyenv"
-    "tmux"
-)
-
-for TARGET in "${TARGETS[@]}"
-do
-    brew install $TARGET
-done
+build_brew
+build_dependencies

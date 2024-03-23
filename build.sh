@@ -37,12 +37,16 @@ do
     build_program $PROG
 done
 
+function build_autojump() {
+    brew install autojump
+}
+
 function build_pyenv() {
     brew install pyenv
 }
 
-function build_autojump() {
-    brew install autojump
+function build_tmux() {
+    brew install tmux
 }
 
 function build_zsh_syntax_highlighting() {
@@ -52,6 +56,7 @@ function build_zsh_syntax_highlighting() {
 TARGETS=(
     "autojump"
     "pyenv"
+    "tmux"
     "zsh_syntax_highlighting"
 )
 

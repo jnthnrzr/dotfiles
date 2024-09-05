@@ -167,4 +167,5 @@ fi
 
 if [ $(brew list | grep 'zsh-autosuggestions' | head -1) ]; then
     source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    bindkey '^I' autosuggest-accept
 fi

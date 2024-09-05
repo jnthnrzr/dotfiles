@@ -83,11 +83,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    aws
     autojump
-    dotenv
+    aws
     docker
     docker-compose
+    dotenv
     gh
     git
     jira
@@ -145,18 +145,26 @@ export LC_CTYPE="en_US.UTF-8"
 export PYTHONDONTWRITEBYTECODE=1
 export PATH="$HOME/.local/bin:$PATH"
 
-export PNPM_HOME="/Users/jonathanrozario/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 export PATH="/Users/jonathanrozario/.detaspace/bin:$PATH"
 
 if [ -f ~/.aliases ]; then
     source ~/.aliases
+fi
+
+if [ -f ~/.zworkprofile ]; then
+    source ~/.zworkprofile
+fi
+
+if [ $(brew list | grep 'pyenv' | head -1) ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
+
+if [ $(brew list | grep 'zsh-syntax-highlighting' | head -1) ]; then
+    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [ $(brew list | grep 'zsh-autosuggestions' | head -1) ]; then
+    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi

@@ -1,3 +1,10 @@
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
+    echo "zsh-autosuggestions not installed. Downloading..."
+    git clone --depth=1 \
+        https://github.com/zsh-users/zsh-autosuggestions \
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
     echo "powerlevel10k not installed. Downloading..."
     git clone --depth=1 \
@@ -95,6 +102,7 @@ plugins=(
     pyenv
     python
     vi-mode
+    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -163,8 +171,4 @@ fi
 
 if [ $(brew list | grep 'zsh-syntax-highlighting' | head -1) ]; then
     source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-if [ $(brew list | grep 'zsh-autosuggestions' | head -1) ]; then
-    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi

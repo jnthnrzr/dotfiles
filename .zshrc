@@ -1,3 +1,14 @@
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
+    echo "Missing zsh-completions. Downloading..."
+      git clone --depth=1 \
+          https://github.com/zsh-users/zsh-completions \
+          ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+fi
+
+if [[ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
+    fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+fi
+
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
     echo "Missing zsh-syntax-highlighting. Downloading..."
     git clone --depth=1 \

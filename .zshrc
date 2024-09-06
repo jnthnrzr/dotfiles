@@ -1,16 +1,24 @@
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
+    echo "Missing zsh-syntax-highlighting. Downloading..."
+    git clone --depth=1 \
+        https://github.com/zsh-users/zsh-syntax-highlighting.git \
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
+
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
-    echo "zsh-autosuggestions not installed. Downloading..."
+    echo "Missing zsh-autosuggestions. Downloading..."
     git clone --depth=1 \
         https://github.com/zsh-users/zsh-autosuggestions \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
-    echo "powerlevel10k not installed. Downloading..."
+    echo "Missing powerlevel10k. Downloading..."
     git clone --depth=1 \
         https://github.com/romkatv/powerlevel10k.git \
         ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -167,8 +175,4 @@ if [ $(brew list | grep 'pyenv' | head -1) ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
-fi
-
-if [ $(brew list | grep 'zsh-syntax-highlighting' | head -1) ]; then
-    source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi

@@ -4,8 +4,8 @@ if [ -f /opt/homebrew/bin/brew ]; then
 fi
 
 # pyenv
-# if [ $(brew list | grep 'pyenv' | head -1) ]; then
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init --path)"
-# fi
+if [ "$(brew list | grep 'pyenv' | head -1)" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
+fi

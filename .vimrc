@@ -127,19 +127,19 @@ set path=**
 set ruler
 " set shell=/usr/local/bin/zsh
 " number of spaces for auto indent
-" set shiftwidth=4
+set shiftwidth=4
 " show command in bottom bar
 set showcmd
 " always show sign column
 set signcolumn=yes
 " use 4 spaces as flexible tabs
-" set softtabstop=4
+set softtabstop=4
 " vertical splits split right
 set splitright
 " splits split below
 set splitbelow
 " use 4 spaces to represent tab
-" set tabstop=4
+set tabstop=4
 " break lines for line length increases
 set textwidth=100
 " visual autocomplete for command menu

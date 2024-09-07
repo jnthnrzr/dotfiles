@@ -19,6 +19,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['pyright', 'flake8', 'mypy'],
 \   'rust': ['cspell', 'cargo'],
+\   'zsh': ['shellcheck'],
 \ }
 let g:ale_rust_cargo_use_clippy = 1
 let g:ale_set_loclist = 0

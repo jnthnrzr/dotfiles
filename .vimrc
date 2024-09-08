@@ -18,7 +18,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['pyright', 'flake8', 'mypy'],
-\   'rust': ['cspell', 'cargo'],
+\   'rust': ['cargo', 'rls'],
 \   'zsh': ['shellcheck'],
 \ }
 let g:ale_rust_cargo_use_clippy = 1

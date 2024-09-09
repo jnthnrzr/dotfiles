@@ -1,30 +1,3 @@
-" ----------
-" ALE config
-" ----------
-let g:ale_hover_cursor = 0
-let g:ale_hover_to_preview = 1
-let g:ale_close_preview_on_insert = 1
-let g:ale_completion_enabled = 1
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'markdown': ['remove_trailing_lines', 'trim_whitespace'],
-\   'python': ['autoflake', 'black', 'isort', 'remove_trailing_lines', 'trim_whitespace'],
-\   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
-\   'scss': ['prettier'],
-\   'typescript': ['prettier', 'tslint']
-\ }
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'python': ['pyright', 'flake8', 'mypy'],
-\   'rust': ['cargo', 'rls'],
-\   'zsh': ['shellcheck']
-\ }
-let g:ale_rust_cargo_use_clippy = 1
-let g:ale_set_loclist = 0
-let g:ale_virtualtext_cursor = 'disabled'
-let g:airline#extensions#ale#enabled = 1
-
 " ---------------
 " Configure Plugs
 " ---------------
@@ -48,12 +21,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " IDE
-Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-" Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
@@ -71,6 +43,9 @@ Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'neoclide/coc-tsserver', { 'do': 'yarn install --frozen-lockfile', 'for': 'typescript'}
+Plug 'neoclide/coc-json', { 'for': 'json'}
+Plug 'fannheyward/coc-rust-analyzer', { 'do': 'yarn install --frozen-lockfile', 'for': 'rust' }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
@@ -124,7 +99,6 @@ set relativenumber
 set path=**
 " show line and column number
 set ruler
-" set shell=/usr/local/bin/zsh
 " number of spaces for auto indent
 set shiftwidth=4
 " show command in bottom bar
@@ -167,6 +141,7 @@ set backspace=indent,eol,start
 " Set Airline theme
 let g:airline_theme='term'
 let g:airline_powerline_fonts = 1
+" This should not be highlighted: letter
 
 " ----------------------
 " Configure cursor shape
@@ -178,19 +153,26 @@ let g:airline_powerline_fonts = 1
 " 4 -> solid underscore
 " 5 -> blinking vertical bar
 " 6 -> solid vertical bar
-let &t_SI.="\e[1 q" "SI = INSERT mode
+let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 " ---------------
 " Set colorscheme
 " ---------------
-let g:python_highlight_all=1
-let g:python_highlight_space_errors=1
+" let g:python_highlight_all=1
+" let g:python_highlight_space_errors=1
 let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_hls_cursor='blue'
+let g:gruvbox_hls_cursor='bright_red'
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_improved_strings=0
+let g:gruvbox_improved_warnings=1
+let g:gruvbox_invert_selection=0
+let g:gruvbox_invert_signs=1
 colorscheme gruvbox
 set background=dark
+" highlight Cursorline ctermbg=black
+highlight Search cterm=NONE ctermfg=black ctermbg=cyan
 
 " ----------------------
 " Configure zettelkasten
@@ -224,17 +206,14 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-nnoremap <silent> <F2>  :ALERename<CR>
-nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
-nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
-nnoremap <silent> <F5>  :Dispatch!<CR>
-nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
-nnoremap <silent> <F7>  :Make<CR>
-nnoremap <silent> <F8>  :ALELint<CR>
-nnoremap <silent> <F10> :ALEInfo<CR>
-
-nnoremap <silent> <leader>N <Plug>(ale_previous_wrap)
-nnoremap <silent> <leader>n <Plug>(ale_next_wrap)
+" nnoremap <silent> <F2>  :ALERename<CR>
+" nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
+" nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
+" nnoremap <silent> <F5>  :Dispatch!<CR>
+" nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
+" nnoremap <silent> <F7>  :Make<CR>
+" nnoremap <silent> <F8>  :ALELint<CR>
+" nnoremap <silent> <F10> :ALEInfo<CR>
 
 nnoremap <silent> <C-l> /noh<CR><C-l>
 

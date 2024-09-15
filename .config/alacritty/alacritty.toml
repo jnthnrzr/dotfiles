@@ -1,6 +1,3 @@
-# dynamic_padding = false
-# tabspaces = 8
-
 [colors]
 draw_bold_text_with_bright_colors = true
 
@@ -27,8 +24,6 @@ yellow = "0xd79921"
 [colors.primary]
 background = "0x282828"
 foreground = "0xebdbb2"
-# "hard contrast" = "background = '0x1d2021'"
-# "soft contrast" = "background = '0x32302f'"
 
 [cursor.style]
 blinking = "On"
@@ -38,8 +33,6 @@ shape = "Block"
 TERM = "xterm-256color"
 
 [font]
-# custom_cursor_colors = false
-# render_timer = false
 size = 18.0
 
 [font.bold]
@@ -66,12 +59,6 @@ y = 0
 action = "PasteSelection"
 mouse = "Middle"
 
-# [mouse.double_click]
-# threshold = 300
-
-# [mouse.triple_click]
-# threshold = 300
-
 [scrolling]
 history = 10000
 multiplier = 3
@@ -80,23 +67,7 @@ multiplier = 3
 save_to_clipboard = true
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
-# [visual_bell]
-# animation = "EaseOutExpo"
-# duration = 0
-
 [window]
-decorations = "full"
 dynamic_title = false
 opacity = 1.0
-
-[window.dimensions]
-columns = 133
-lines = 40
-
-[window.padding]
-x = 8
-y = 8
-
-[window.position]
-x = 0
-y = 10
+startup_mode = "Maximized"

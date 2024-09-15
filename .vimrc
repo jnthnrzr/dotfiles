@@ -19,6 +19,7 @@ call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'psliwka/vim-smoothie'
 
 " IDE
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -58,6 +59,7 @@ set encoding=utf-8
 set hidden
 set nobackup
 set nowritebackup
+set updatetime=300
 let g:rainbow_active = 1
 " load filetype-specific indent files
 filetype plugin indent on
@@ -139,9 +141,8 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='term'
-let g:airline_powerline_fonts = 1
-" This should not be highlighted: letter
+let g:airline_theme='deus'
+" let g:airline_solarized_bg='dark'
 
 " ----------------------
 " Configure cursor shape
@@ -155,41 +156,35 @@ let g:airline_powerline_fonts = 1
 " 6 -> solid vertical bar
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 
 " ---------------
 " Set colorscheme
 " ---------------
 " let g:python_highlight_all=1
 " let g:python_highlight_space_errors=1
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_hls_cursor='bright_red'
+" let g:gruvbox_contrast_dark='hard'
+" let g:gruvbox_hls_cursor='bright_red'
 let g:gruvbox_transparent_bg=1
 let g:gruvbox_improved_strings=0
 let g:gruvbox_improved_warnings=1
 let g:gruvbox_invert_selection=0
 let g:gruvbox_invert_signs=1
-colorscheme gruvbox
 set background=dark
+colorscheme gruvbox
 " highlight Cursorline ctermbg=black
-highlight Search cterm=NONE ctermfg=black ctermbg=cyan
+highlight Search cterm=NONE ctermfg=black ctermbg=white
 
 " ----------------------
 " Configure zettelkasten
 " ----------------------
 let g:zettelkasten = $HOME . '/projects/notes'
 
-command! -nargs=1 NewFleeting :execute ":e" zettelkasten . "/fleeting_notes/<args>_" . strftime("%Y-%m-%d-%H%M") . ".md"
-command! -nargs=1 NewLit :execute ":e" zettelkasten . "/literature_notes/<args>_" . strftime("%Y-%m-%d-%H%M") . ".md"
-
 command! NewJournal :execute ":e" zettelkasten . "/journal_notes/" . strftime("%Y-%m-%d") . ".md" |
             \ :execute "normal! G" |
             \ :execute "put!=strftime('%Y-%m-%d %H%M')" |
             \ :execute "normal! Go" |
             \ startinsert!
-
-nnoremap <leader>nf :NewFleeting
-nnoremap <leader>nl :NewLit
 
 nnoremap <leader>nj :NewJournal<CR>
 
@@ -206,16 +201,41 @@ function! ToggleQuickFix()
     endif
 endfunction
 
+function! NewLiteratureNote()
+    let relativeFilePath = "notes/literature/" . trim(tolower(system("uuidgen"))) . ".md"
+    call writefile([], relativeFilePath)
+    execute "normal! a[](" . relativeFilePath . ")"
+    execute "normal! F]"
+    startinsert
+endfunction
+
+nnoremap <leader>l :call NewLiteratureNote()<CR>
+inoremap <silent> <leader>l <ESC>:call NewLiteratureNote()<CR>
+
+function! NewPermanentNote()
+    let noteId = trim(tolower(system("uuidgen")))
+    execute "normal! i[](./notes/permanent/" . noteId . ".md)"
+    execute "normal! F]"
+    startinsert
+endfunction
+
+nnoremap <leader>np :call NewPermanentNote()<CR>
+
+function! CreateNoteFile()
+    " call writefile([], "foobar.txt")
+endfunction
+
 " nnoremap <silent> <F2>  :ALERename<CR>
 " nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
 " nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
-" nnoremap <silent> <F5>  :Dispatch!<CR>
-" nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
-" nnoremap <silent> <F7>  :Make<CR>
+nnoremap <silent> <F5>  :Dispatch!<CR>
+nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
+nnoremap <silent> <F7>  :Make<CR>
 " nnoremap <silent> <F8>  :ALELint<CR>
 " nnoremap <silent> <F10> :ALEInfo<CR>
 
-nnoremap <silent> <C-l> /noh<CR><C-l>
+nnoremap <silent> <Esc> :noh<CR><Esc>
+nnoremap <silent> <C-s> :source ~/.vimrc<CR><C-s>
 
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
@@ -233,15 +253,63 @@ nnoremap <silent> <Leader>f :Rg<CR>
 " -------
 " Gruvbox
 " -------
-let g:gruvbox_hls_cursor='orange'
+" let g:gruvbox_hls_cursor='blue'
 
-nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+" nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+" nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+" nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
 
-nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+" nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+" nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+" nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 
-" Kill last search highlight
-nnoremap <silent> <Esc> <Esc>:noh<CR>
+" ---
+" Coc
+" ---
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> 
+            \ coc#pum#visible() ? coc#pum#confirm() : 
+            \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-space> coc#refresh()
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
+
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']

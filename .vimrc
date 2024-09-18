@@ -1,7 +1,23 @@
+" --------------------
+" Global mark registry
+" --------------------
+" V   .vimrc file
+" Z   README for Zettelkasten
+" L   README for literature notes
+" P   README for permanent notes
+
+" ---------------
+" Tips & Tricks
+" ---------------
+" To check if a mapping exists, try
+" :verbose nmap 'MAPPING' like :verbose nmap <leader>z
+" :verbose imap 'MAPPING' like :verbose imap <leader>z
+"
+" To print the current file with full path, try CTRL-G
+
 " ---------------
 " Configure Plugs
 " ---------------
-
 " Install vim-plug if not found
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -19,7 +35,7 @@ call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
 
 " IDE
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -141,8 +157,7 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='deus'
-" let g:airline_solarized_bg='dark'
+let g:airline_theme='powerlineish'
 
 " ----------------------
 " Configure cursor shape
@@ -175,19 +190,6 @@ colorscheme gruvbox
 " highlight Cursorline ctermbg=black
 highlight Search cterm=NONE ctermfg=black ctermbg=white
 
-" ----------------------
-" Configure zettelkasten
-" ----------------------
-let g:zettelkasten = $HOME . '/projects/notes'
-
-command! NewJournal :execute ":e" zettelkasten . "/journal_notes/" . strftime("%Y-%m-%d") . ".md" |
-            \ :execute "normal! G" |
-            \ :execute "put!=strftime('%Y-%m-%d %H%M')" |
-            \ :execute "normal! Go" |
-            \ startinsert!
-
-nnoremap <leader>nj :NewJournal<CR>
-
 " ----------
 " IDE config
 " ----------
@@ -201,29 +203,40 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-function! NewLiteratureNote()
-    let relativeFilePath = "notes/literature/" . trim(tolower(system("uuidgen"))) . ".md"
+" ----------------------
+" Configure zettelkasten
+" ----------------------
+function! NewJournal()
+    let absFilePath = $HOME . "/Documents/projects/notes/zettelkasten/journal/" . strftime("%Y-%m-%d") . ".md"
+    echo absFilePath
+    execute ":e" absFilePath
+    execute "normal! G"
+    execute "put!='## ' . strftime('%Y-%m-%d')"
+    execute "normal! Go"
+    startinsert!
+endfunction
+
+nnoremap <leader>nj :call NewJournal()<CR>
+
+function! NewZettelkastenNote()
+    let relativeFilePath = "./" . trim(tolower(system("uuidgen"))) . ".md"
     call writefile([], relativeFilePath)
     execute "normal! a[](" . relativeFilePath . ")"
     execute "normal! F]"
     startinsert
 endfunction
 
-nnoremap <leader>l :call NewLiteratureNote()<CR>
-inoremap <silent> <leader>l <ESC>:call NewLiteratureNote()<CR>
+nnoremap <silent> <leader>z :call NewZettelkastenNote()<CR>
+inoremap <silent> <leader>z <ESC>:call NewZettelkastenNote()<CR>
 
-function! NewPermanentNote()
-    let noteId = trim(tolower(system("uuidgen")))
-    execute "normal! i[](./notes/permanent/" . noteId . ".md)"
-    execute "normal! F]"
-    startinsert
-endfunction
+" function! NewPermanentNote()
+"     let noteId = trim(tolower(system("uuidgen")))
+"     execute "normal! i[](./notes/permanent/" . noteId . ".md)"
+"     execute "normal! F]"
+"     startinsert
+" endfunction
 
-nnoremap <leader>np :call NewPermanentNote()<CR>
-
-function! CreateNoteFile()
-    " call writefile([], "foobar.txt")
-endfunction
+" nnoremap <leader>np :call NewPermanentNote()<CR>
 
 " nnoremap <silent> <F2>  :ALERename<CR>
 " nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
@@ -250,6 +263,9 @@ let g:ultisnips_python_style="sphinx"
 
 nnoremap <silent> <Leader>f :Rg<CR>
 
+map <Leader>sp :split<CR>
+map <Leader>vs :vsplit<CR>
+
 " -------
 " Gruvbox
 " -------
@@ -266,6 +282,11 @@ nnoremap <silent> <Leader>f :Rg<CR>
 " ---
 " Coc
 " ---
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
@@ -274,8 +295,8 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> 
-            \ coc#pum#visible() ? coc#pum#confirm() : 
+inoremap <silent><expr> <CR>
+            \ coc#pum#visible() ? coc#pum#confirm() :
             \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use <c-space> to trigger completion
 if has('nvim')
@@ -294,6 +315,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -308,8 +331,5 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
 
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']

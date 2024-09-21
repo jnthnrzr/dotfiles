@@ -199,3 +199,7 @@ if [ "$(brew list | grep pyenv | head -1)" ]; then
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,target,*.lock}"'
+
+alias rg='rg -g "!{node_modules,.git,target,*.lock}"'

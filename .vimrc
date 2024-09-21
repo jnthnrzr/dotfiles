@@ -14,7 +14,18 @@
 " :verbose imap 'MAPPING' like :verbose imap <leader>z
 "
 " To print the current file with full path, try CTRL-G
-
+let g:ale_fixers = {
+            \   'rust': ['rustfmt'],
+            \   }
+let g:ale_linters = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'rust': ['rust_analyzer'],
+            \   }
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_rust_cargo_use_clippy = 1
+" let g:ale_floating_preview = 1
+let g:ale_lint_on_text_changed = 'never'
 " ---------------
 " Configure Plugs
 " ---------------
@@ -35,10 +46,9 @@ call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'psliwka/vim-smoothie'
 
 " IDE
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf'
@@ -60,9 +70,6 @@ Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'neoclide/coc-tsserver', { 'do': 'yarn install --frozen-lockfile', 'for': 'typescript'}
-Plug 'neoclide/coc-json', { 'for': 'json'}
-Plug 'fannheyward/coc-rust-analyzer', { 'do': 'yarn install --frozen-lockfile', 'for': 'rust' }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
@@ -109,8 +116,6 @@ set lazyredraw
 set nocompatible
 " Disable swap files
 set noswapfile
-" show line numbers
-set number
 " use relative line numbers
 set relativenumber
 " search everything
@@ -157,7 +162,7 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='powerlineish'
+let g:airline_theme='term'
 
 " ----------------------
 " Configure cursor shape
@@ -229,26 +234,24 @@ endfunction
 nnoremap <silent> <leader>z :call NewZettelkastenNote()<CR>
 inoremap <silent> <leader>z <ESC>:call NewZettelkastenNote()<CR>
 
-" function! NewPermanentNote()
-"     let noteId = trim(tolower(system("uuidgen")))
-"     execute "normal! i[](./notes/permanent/" . noteId . ".md)"
-"     execute "normal! F]"
-"     startinsert
-" endfunction
-
-" nnoremap <leader>np :call NewPermanentNote()<CR>
-
-" nnoremap <silent> <F2>  :ALERename<CR>
-" nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
-" nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
+nnoremap <silent> <F2>  :ALERename<CR>
+nnoremap <silent> <F3>  :ALEGoToDefinition<CR>
+nnoremap <silent> <F4>  :ALESymbolSearch <C-r><C-w><CR>
 nnoremap <silent> <F5>  :Dispatch!<CR>
 nnoremap <silent> <F6>  :call ToggleQuickFix()<CR>
 nnoremap <silent> <F7>  :Make<CR>
-" nnoremap <silent> <F8>  :ALELint<CR>
-" nnoremap <silent> <F10> :ALEInfo<CR>
+nnoremap <silent> <F8>  :ALELint<CR>
+nnoremap <silent> <F10> :ALEInfo<CR>
 
-nnoremap <silent> <Esc> :noh<CR><Esc>
+nnoremap <silent> <Esc> :let @/ = ""<CR><Esc>
 nnoremap <silent> <C-s> :source ~/.vimrc<CR><C-s>
+
+" Use Enter to select from popup menu
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" Use Tab to select from popup menu
+inoremap <expr> <TAB> pumvisible() ? "\<C-Y>" : "\<TAB>"
+" Use ALEHover on current word
+nnoremap <silent> K :ALEHover<CR>
 
 " Use Vim 8 job support for vim-dispatch
 let g:dispatch_no_tmux_make = 1
@@ -262,74 +265,8 @@ let g:UltiSnipsEditSplit="vertical"
 let g:ultisnips_python_style="sphinx"
 
 nnoremap <silent> <Leader>f :Rg<CR>
+nnoremap <silent> <Leader>F :FZF<CR>
 
 map <Leader>sp :split<CR>
 map <Leader>vs :vsplit<CR>
 
-" -------
-" Gruvbox
-" -------
-" let g:gruvbox_hls_cursor='blue'
-
-" nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-" nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-" nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
-
-" nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-" nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-" nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
-
-" ---
-" Coc
-" ---
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR>
-            \ coc#pum#visible() ? coc#pum#confirm() :
-            \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" Use <c-space> to trigger completion
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-space> coc#refresh()
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-" Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']

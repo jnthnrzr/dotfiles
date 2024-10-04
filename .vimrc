@@ -19,13 +19,19 @@ let g:ale_fixers = {
             \   }
 let g:ale_linters = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'python': ['pyright'],
             \   'rust': ['rust_analyzer'],
             \   }
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_rust_cargo_use_clippy = 1
-" let g:ale_floating_preview = 1
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_delay = 0
+" let g:gruvbox_italic = 1
+" let g:gruvbox_italicize_comments = 1
+" let g:gruvbox_italicize_strings = 1
+let g:palenight_terminal_italics = 1
+"
 " ---------------
 " Configure Plugs
 " ---------------
@@ -43,35 +49,36 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin()
 
 " Theme
-Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+" Plug 'morhetz/gruvbox'
+Plug 'drewtempelmeyer/palenight.vim'
 
 " IDE
-Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
+Plug 'junegunn/fzf', { 'on': ['FZF', 'Rg'] }
+Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Rg'] }
+Plug 'tpope/vim-commentary', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
+Plug 'tpope/vim-dispatch', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
-Plug 'SirVer/ultisnips', { 'for': ['go', 'python'] }
-Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
-Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
+Plug 'SirVer/ultisnips', { 'for': ['go', 'python', 'rust', 'typescript'] }
+" Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
+Plug 'ekalinin/Dockerfile.vim', { 'for': ['Dockerfile'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
+" Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-python/python-syntax', { 'for': 'python' }
@@ -80,9 +87,8 @@ call plug#end()
 
 set encoding=utf-8
 set hidden
-set nobackup
-set nowritebackup
-set updatetime=300
+set nobackup nowritebackup
+set updatetime=100
 let g:rainbow_active = 1
 " load filetype-specific indent files
 filetype plugin indent on
@@ -104,10 +110,8 @@ set foldlevelstart=10
 set foldmethod=syntax
 " 10 nested fold max
 set foldnestmax=10
-" highlight matches
-set hlsearch
-" search as you type
-set incsearch
+" highlight matches, search as you type
+set hlsearch incsearch
 " view the statusline
 set laststatus=2
 " redraw only when we need to
@@ -143,26 +147,28 @@ set wildmenu
 " Enable built-in fuzzy command-line completion
 set wildoptions+=fuzzy
 " ignore directory and file patterns when searching for files
-set wildignore+=**/node_modules/**
-set wildignore+=**/.git/**
-set wildignore+=**/__pycache__/**
-set wildignore+=**/.mypy_cache/**
-set wildignore+=*.DS_Store
-set wildignore+=*.pdf
-set wildignore+=*.jpg
-set wildignore+=*.jpeg
-set wildignore+=*.png
-set wildignore+=*.ico
+set wildignore+=**/node_modules/**,**/target/**,**/.git/**,**/__pycache__/**,**/.mypy_cache/**,*.DS_Store,*.pdf,*.jpg,*.jpeg,*.png,*.ico
+" set wildignore+=**/node_modules/**
+" set wildignore+=**/.git/**
+" set wildignore+=**/__pycache__/**
+" set wildignore+=**/.mypy_cache/**
+" set wildignore+=*.DS_Store
+" set wildignore+=*.pdf
+" set wildignore+=*.jpg
+" set wildignore+=*.jpeg
+" set wildignore+=*.png
+" set wildignore+=*.ico
 " check spelling
-set spell spelllang=en_us
-" enable syntax processing
-syntax enable
+" set spell spelllang=en_us
+set termguicolors
 " hide status in favor of airline/lightline
 set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
 let g:airline_theme='term'
+" enable syntax processing
+syntax enable
 
 " ----------------------
 " Configure cursor shape
@@ -185,15 +191,18 @@ let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
 " let g:python_highlight_space_errors=1
 " let g:gruvbox_contrast_dark='hard'
 " let g:gruvbox_hls_cursor='bright_red'
-let g:gruvbox_transparent_bg=1
-let g:gruvbox_improved_strings=0
-let g:gruvbox_improved_warnings=1
-let g:gruvbox_invert_selection=0
-let g:gruvbox_invert_signs=1
+" let g:gruvbox_transparent_bg=1
+" let g:gruvbox_improved_strings=0
+" let g:gruvbox_improved_warnings=1
+" let g:gruvbox_invert_selection=0
+" let g:gruvbox_invert_signs=1
+" let g:seoul256_background = 234
+" colorscheme seoul256
 set background=dark
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme palenight
 " highlight Cursorline ctermbg=black
-highlight Search cterm=NONE ctermfg=black ctermbg=white
+" highlight Search cterm=NONE ctermfg=black ctermbg=white
 
 " ----------
 " IDE config
@@ -221,7 +230,7 @@ function! NewJournal()
     startinsert!
 endfunction
 
-nnoremap <leader>nj :call NewJournal()<CR>
+nnoremap <leader>j :call NewJournal()<CR>
 
 function! NewZettelkastenNote()
     let relativeFilePath = "./" . trim(tolower(system("uuidgen"))) . ".md"
@@ -270,3 +279,13 @@ nnoremap <silent> <Leader>F :FZF<CR>
 map <Leader>sp :split<CR>
 map <Leader>vs :vsplit<CR>
 
+" --------
+" NERDTree
+" --------
+nnoremap <leader>n :NERDTreeFocus<CR>
+" nnoremap <silent> <C-n> :NERDTree<CR>
+nnoremap <silent> <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+let g:lightline = { 'colorscheme': 'palenight' }
+" let g:lightline = { 'colorscheme': 'Tomorrow_Night_Eighties' }

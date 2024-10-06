@@ -31,7 +31,7 @@ let g:ale_lint_delay = 0
 " let g:gruvbox_italicize_comments = 1
 " let g:gruvbox_italicize_strings = 1
 let g:palenight_terminal_italics = 1
-"
+
 " ---------------
 " Configure Plugs
 " ---------------
@@ -49,9 +49,9 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin()
 
 " Theme
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'itchyny/lightline.vim'
 " Plug 'morhetz/gruvbox'
-Plug 'drewtempelmeyer/palenight.vim'
 
 " IDE
 Plug 'dense-analysis/ale', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
@@ -166,7 +166,7 @@ set noshowmode
 " Make backspace work like other programs
 set backspace=indent,eol,start
 " Set Airline theme
-let g:airline_theme='term'
+" let g:airline_theme='term'
 " enable syntax processing
 syntax enable
 
@@ -182,7 +182,7 @@ syntax enable
 " 6 -> solid vertical bar
 let &t_SI.="\e[5 q" "SI = INSERT mode
 let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 " ---------------
 " Set colorscheme
@@ -202,7 +202,9 @@ set background=dark
 " colorscheme gruvbox
 colorscheme palenight
 " highlight Cursorline ctermbg=black
-" highlight Search cterm=NONE ctermfg=black ctermbg=white
+highlight CursorLine guibg=#4B0070
+" Cursor         xxx ctermfg=235 ctermbg=39 guifg=#292D3E guibg=#82b1ff
+highlight Search cterm=NONE ctermfg=black ctermbg=white
 
 " ----------
 " IDE config

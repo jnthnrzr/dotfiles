@@ -14,37 +14,32 @@
 " :verbose imap 'MAPPING' like :verbose imap <leader>z
 "
 " To print the current file with full path, try CTRL-G
-let g:ale_fixers = {
-            \   'rust': ['rustfmt'],
-            \   }
-let g:ale_linters = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'python': ['pyright'],
-            \   'rust': ['rust_analyzer'],
-            \   }
+
+" ---------------
+" Ale setup
+" ---------------
+let g:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_linters = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['pyright'], 'rust': ['rust_analyzer']}
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_rust_cargo_use_clippy = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_delay = 0
+let g:palenight_terminal_italics = 1
 " let g:gruvbox_italic = 1
 " let g:gruvbox_italicize_comments = 1
 " let g:gruvbox_italicize_strings = 1
-let g:palenight_terminal_italics = 1
 
 " ---------------
 " Configure Plugs
 " ---------------
 " Install vim-plug if not found
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 " Run PlugInstall if there are missing plugins
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \| PlugInstall --sync | source $MYVIMRC
-\| endif
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | source $MYVIMRC | endif
 
 call plug#begin()
 
@@ -72,16 +67,16 @@ Plug 'tpope/vim-unimpaired'
 
 " Languages
 Plug 'SirVer/ultisnips', { 'for': ['go', 'python', 'rust', 'typescript'] }
-" Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
 Plug 'ekalinin/Dockerfile.vim', { 'for': ['Dockerfile'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-" Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
-" Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-python/python-syntax', { 'for': 'python' }
+" Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
+" Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'jsx'] }
+" Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
 call plug#end()
 
@@ -121,7 +116,7 @@ set nocompatible
 " Disable swap files
 set noswapfile
 " use relative line numbers
-set relativenumber
+set relativenumber number
 " search everything
 set path=**
 " show line and column number
@@ -268,12 +263,17 @@ nnoremap <silent> K :ALEHover<CR>
 let g:dispatch_no_tmux_make = 1
 let g:dispatch_no_tmux_start = 1
 
+" ---------
+" UltiSnips
+" ---------
 let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:ultisnips_python_style="sphinx"
+" Load UltiSnips into runtimepath for its help files
+set runtimepath+=~/.vim/plugged/ultisnips
 
 nnoremap <silent> <Leader>f :Rg<CR>
 nnoremap <silent> <Leader>F :FZF<CR>
@@ -285,9 +285,7 @@ map <Leader>vs :vsplit<CR>
 " NERDTree
 " --------
 nnoremap <leader>n :NERDTreeFocus<CR>
-" nnoremap <silent> <C-n> :NERDTree<CR>
 nnoremap <silent> <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 let g:lightline = { 'colorscheme': 'palenight' }
-" let g:lightline = { 'colorscheme': 'Tomorrow_Night_Eighties' }

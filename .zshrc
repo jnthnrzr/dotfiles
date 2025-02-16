@@ -121,7 +121,6 @@ fi
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    autojump
     aws
     docker
     dotenv
@@ -198,6 +197,10 @@ if [ "$(brew list | grep pyenv | head -1)" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
+fi
+
+if [ "$(brew list | grep zoxide | head -1)" ]; then
+    eval "$(zoxide init zsh)"
 fi
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,target,*.lock}"'

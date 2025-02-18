@@ -218,7 +218,7 @@ endfunction
 " Configure zettelkasten
 " ----------------------
 function! NewJournal()
-    let absFilePath = $HOME . "/Documents/projects/notes/zettelkasten/journal/" . strftime("%Y-%m-%d") . ".md"
+    let absFilePath = $HOME . "/projects/notes/zettelkasten/journal/" . strftime("%Y-%m-%d") . ".md"
     echo absFilePath
     execute ":e" absFilePath
     execute "normal! G"

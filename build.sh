@@ -28,9 +28,9 @@ build_dependencies() {
 
     # These are all other programs
     TARGETS=(
-        "autojump"
         "pyenv"
         "tmux"
+        "zoxide"
     )
 
     for TARGET in "${TARGETS[@]}"

@@ -56,7 +56,7 @@ Plug 'frazrepo/vim-rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'on': ['FZF', 'Rg'] }
 Plug 'junegunn/fzf.vim', { 'on': ['FZF', 'Rg'] }
-Plug 'tpope/vim-commentary', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
+Plug 'tpope/vim-commentary', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'sh', 'typescript', 'vim'] }
 Plug 'tpope/vim-dispatch', { 'for': ['css', 'go', 'html', 'javascript', 'python', 'rust', 'typescript', 'vim'] }
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -71,7 +71,7 @@ Plug 'ekalinin/Dockerfile.vim', { 'for': ['Dockerfile'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-python/python-syntax', { 'for': 'python' }
 " Plug 'alvan/vim-closetag', { 'for': ['html', 'jsx'] }
@@ -239,6 +239,7 @@ endfunction
 
 nnoremap <silent> <leader>z :call NewZettelkastenNote()<CR>
 inoremap <silent> <leader>z <ESC>:call NewZettelkastenNote()<CR>
+nnoremap <silent> <leader>x yi] :e <C-R>"<CR>
 
 nnoremap <silent> <F2>  :ALERename<CR>
 nnoremap <silent> <F3>  :ALEGoToDefinition<CR>

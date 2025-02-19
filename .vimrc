@@ -66,7 +66,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
-Plug 'SirVer/ultisnips', { 'for': ['go', 'python', 'rust', 'typescript'] }
+" Plug 'SirVer/ultisnips', { 'for': ['go', 'python', 'rust', 'typescript'] }
 Plug 'ekalinin/Dockerfile.vim', { 'for': ['Dockerfile'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'jparise/vim-graphql', { 'for': 'graphql' }

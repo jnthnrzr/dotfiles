@@ -115,6 +115,12 @@ if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" 
         "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
 fi
 
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $HOME/.oh-my-zsh/plugins/*
 # Custom plugins may be added to $HOME/.oh-my-zsh/custom/plugins/
@@ -168,8 +174,6 @@ export EDITOR='vim'
 # alias zshconfig="mate $HOME/.zshrc"
 # alias ohmyzsh="mate $HOME/.oh-my-zsh"
 
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
-
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 [[ ! -f "$HOME"/.p10k.zsh ]] || source "$HOME"/.p10k.zsh
 
@@ -193,13 +197,7 @@ if [ -f "$HOME"/.zworkprofile ]; then
     source "$HOME"/.zworkprofile
 fi
 
-if [ "$(brew list | grep pyenv | head -1)" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-fi
-
-if [ "$(brew list | grep zoxide | head -1)" ]; then
+if [ ! "$(command -v zoxide >/dev/null)" ]; then
     eval "$(zoxide init zsh)"
 fi
 

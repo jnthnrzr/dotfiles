@@ -25,7 +25,9 @@ sudo apt install -y \
 	vim-scripts \
 	vim \
     tmux \
-	git
+	git \
+    zoxide \
+    fzf
 
 # Install Python
 sudo apt-get install -y \
@@ -49,25 +51,26 @@ sudo apt-get install -y \
     liblzma-dev \
     make \
     build-essential \
+    ripgrep \
     openssl
 
 # Pyenv
 if [ ! -d "/home/pi/.pyenv" ]; then
-  curl https://pyenv.run | bash
+    curl https://pyenv.run | bash
 else
     pyenv update
 fi
 
 # Rustup
 if [ $(which rustup) ]; then
-  :
+    :
 else
-  curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
 fi
 
 # Vim Plug
 if [ ! -f ".vim/autoload/plug.vim" ]; then
-  curl \
-      -fLo .vim/autoload/plug.vim \
-      --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl \
+        -fLo .vim/autoload/plug.vim \
+        --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi

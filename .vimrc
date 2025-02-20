@@ -239,7 +239,7 @@ endfunction
 
 nnoremap <silent> <leader>z :call NewZettelkastenNote()<CR>
 inoremap <silent> <leader>z <ESC>:call NewZettelkastenNote()<CR>
-nnoremap <silent> <leader>x yi] :e <C-R>"<CR>
+nnoremap <silent> <leader>g f/gf
 
 nnoremap <silent> <F2>  :ALERename<CR>
 nnoremap <silent> <F3>  :ALEGoToDefinition<CR>

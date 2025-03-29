@@ -52,6 +52,7 @@ sudo apt-get install -y \
     make \
     build-essential \
     ripgrep \
+    uuid-runtime \
     openssl
 
 # Pyenv

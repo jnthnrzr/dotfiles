@@ -27,6 +27,7 @@ sudo apt install -y \
     tmux \
 	git \
     zoxide \
+    docker.io \
     fzf
 
 # Install Python

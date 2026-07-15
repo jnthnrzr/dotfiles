@@ -18,7 +18,7 @@
 " ---------------
 " Ale setup
 " ---------------
-let g:ale_fixers = {'rust': ['rustfmt']}
+let g:ale_fixers = {'rust': ['rustfmt'], 'python': ['black']}
 let g:ale_linters = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['pyright'], 'rust': ['rust_analyzer']}
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
@@ -26,6 +26,7 @@ let g:ale_rust_cargo_use_clippy = 1
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_delay = 0
 let g:palenight_terminal_italics = 1
+let g:ale_fix_on_save = 1
 " let g:gruvbox_italic = 1
 " let g:gruvbox_italicize_comments = 1
 " let g:gruvbox_italicize_strings = 1
